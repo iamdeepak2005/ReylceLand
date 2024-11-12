@@ -1,0 +1,41 @@
+/* app.component.css */
+/* app.component.css */
+/* .image-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .zoom-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease; 
+    transform-origin: center center; 
+
+  } */
+
+
+  .image-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Hide overflow to prevent scrollbars during zoom */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .zoom-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease; /* Smooth zoom effect */
+    transform-origin: center center; /* Zoom from center */
+  }
+  
+  
+  
+  
