@@ -1,41 +1,656 @@
-/* app.component.css */
-/* app.component.css */
-/* .image-container {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .zoom-image {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease; 
-    transform-origin: center center; 
-
-  } */
 
 
-  .image-container {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden; /* Hide overflow to prevent scrollbars during zoom */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+.image-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+}
+
+.zoom-image {
+  background-image: url('https://img.freepik.com/premium-vector/abstract-black-triangles-shape-layer-lighting_78474-656.jpg?semt=ais_hybrid');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Ensure it's below content */
+}
+
+.content {
+  position: relative; /* Make it stack above the zoom image */
+  z-index: 2; /* Higher z-index than zoom-image */
+  color: white;
+  padding: 20px; /* Add spacing around the content */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.content h2 {
+  margin: 0 0 10px; /* Optional: Adjust spacing */
+  font-size:3.8rem; /* Adjust size as needed */
+  width: 70%;
+  line-height: 4rem;
+  font-weight: 400;
+  
+}
+
+.content p {
+  margin: 0;
+  font-size: 1.4rem; /* Adjust size as needed */
+  width:60%;
+  line-height: 2.2rem;
+  font-weight: 100;
+}
+.content h2,
+.content p {
+  position: relative;
+  cursor: pointer; /* Optional: Add pointer cursor on hover */
+  text-decoration: none; /* Remove default text underline */
+  text-underline-offset: 5px; /* Adds spacing between the text and underline */
+  text-decoration-thickness: 2px; /* Set the thickness of the underline */
+}
+
+.content h2:hover,
+.content p:hover {
+  text-decoration: underline; /* Show underline on hover */
+}
+/* From Uiverse.io by marcelodolza */ 
+.button {
+  --primary: #ff5569;
+  --neutral-1: #f7f8f7;
+  --neutral-2: #e7e7e7;
+  --radius: 14px;
+
+  cursor: pointer;
+  border-radius: var(--radius);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  border: none;
+  box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  padding: 20px;
+  height: 68px;
+  font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 600;
+}
+.button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+}
+.button:active {
+  transform: scale(1);
+  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 10px 3px -3px rgba(0, 0, 0, 0.2);
+}
+.button:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  border: 2.5px solid transparent;
+  background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
+      border-box;
+  z-index: 0;
+  transition: all 0.4s ease;
+}
+.button:hover::after {
+  transform: scale(1.05, 1.1);
+  box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
+}
+.button::before {
+  content: "";
+  inset: 7px 6px 6px 6px;
+  position: absolute;
+  background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+  border-radius: 30px;
+  filter: blur(0.5px);
+  z-index: 2;
+}
+.state p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.state .icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transform: scale(1.25);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.state .icon svg {
+  overflow: visible;
+}
+
+/* Outline */
+.outline {
+  position: absolute;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  inset: -2px -3.5px;
+}
+.outline::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 180deg,
+    transparent 60%,
+    white 80%,
+    transparent 100%
+  );
+  animation: spin 2s linear infinite;
+  animation-play-state: paused;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.button:hover .outline {
+  opacity: 1;
+}
+.button:hover .outline::before {
+  animation-play-state: running;
+}
+
+/* Letters */
+.state p span {
+  display: block;
+  opacity: 0;
+  animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+}
+.button:hover p span {
+  opacity: 1;
+  animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+}
+.button:focus p span {
+  opacity: 1;
+  animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
+}
+@keyframes wave {
+  30% {
+    opacity: 1;
+    transform: translateY(4px) translateX(0) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px) translateX(0) rotate(0);
+    color: var(--primary);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0);
+  }
+}
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(5px) rotate(-90deg);
+    color: var(--primary);
+    filter: blur(5px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(4px) translateX(0) rotate(0);
+    filter: blur(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px) translateX(0) rotate(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0);
+  }
+}
+@keyframes disapear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(5px) translateY(20px);
+    color: var(--primary);
+    filter: blur(5px);
+  }
+}
+
+/* Plane */
+.state--default .icon svg {
+  animation: land 0.6s ease forwards;
+}
+.button:hover .state--default .icon {
+  transform: rotate(45deg) scale(1.25);
+}
+.button:focus .state--default svg {
+  animation: takeOff 0.8s linear forwards;
+}
+.button:focus .state--default .icon {
+  transform: rotate(0) scale(1.25);
+}
+@keyframes takeOff {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(70px) rotate(45deg) scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(160px) rotate(45deg) scale(0);
+  }
+}
+@keyframes land {
+  0% {
+    transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Contrail */
+.state--default .icon:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  width: 0;
+  left: -5px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
+}
+.button:focus .state--default .icon:before {
+  animation: contrail 0.8s linear forwards;
+}
+@keyframes contrail {
+  0% {
+    width: 0;
+    opacity: 1;
+  }
+  8% {
+    width: 15px;
+  }
+  60% {
+    opacity: 0.7;
+    width: 80px;
+  }
+  100% {
+    opacity: 0;
+    width: 160px;
+  }
+}
+
+/* States */
+.state {
+  padding-left: 29px;
+  z-index: 2;
+  display: flex;
+  position: relative;
+}
+.state--default span:nth-child(4) {
+  margin-right: 5px;
+}
+.state--sent {
+  display: none;
+}
+.state--sent svg {
+  transform: scale(1.25);
+  margin-right: 8px;
+}
+.button:focus .state--default {
+  position: absolute;
+}
+.button:focus .state--sent {
+  display: flex;
+}
+.button:focus .state--sent span {
+  opacity: 0;
+  animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
+}
+.button:focus .state--sent .icon svg {
+  opacity: 0;
+  animation: appear 1.2s ease forwards 0.8s;
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: scale(4) rotate(-40deg);
+    color: var(--primary);
+    filter: blur(4px);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(0.6);
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.text{
+  position: relative;
+  left: 30px;
+}
+@media (max-width: 700px) {
+  .content h2 {
+ /* Optional: Adjust spacing */
+    font-size:2rem; /* Adjust size as needed */
+    width: 90%;
+    line-height: 2rem;
+    font-weight: 400;
+    
   }
   
-  .zoom-image {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease; /* Smooth zoom effect */
-    transform-origin: center center; /* Zoom from center */
+  .content p {
+
+    font-size: 0.8rem; /* Adjust size as needed */
+    width:80%;
+    line-height: 1.2rem;
+    font-weight: 100;
   }
-  
-  
-  
-  
+  .content{
+    margin-left: 10px;
+  }
+  .button{
+    padding: 10px;
+  }
+
+}
+
+.land {
+  position: relative;
+  /* padding-top: 60px;  */
+  margin-top: 15vh;
+}
+
+.image-container {
+  position: fixed; /* Keeps it in place on the viewport */
+  top: 15%;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ff5569; /* Background color for testing */
+  z-index: 1; /* Layer below the scrolling content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.info {
+  position: relative; /* Default positioning for stacking */
+  z-index: 2; /* Higher layer than the image-container */
+  background-color: #ffffff;
+  margin-top: 100vh; /* Starts right below the image-container */
+  padding: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.header {
+  position: fixed; /* Keep the header fixed at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure the header is above all content */
+  height: 15vh;
+
+}
+/* From Uiverse.io by svqantonio */ 
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.up {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.down {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.card1 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 90px 5px 5px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.instagram {
+  margin-top: 1.5em;
+  margin-left: 1.2em;
+  fill: #cc39a4;
+}
+
+.card2 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 90px 5px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.facebook {
+  margin-top: 1.5em;
+  margin-left: -.9em;
+  fill: #03A9F4;
+}
+
+.card3 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 5px 5px 90px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.whatsapp {
+  margin-top: -.6em;
+  margin-left: 1.2em;
+  fill: #00ff00;
+}
+
+.card4 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 5px 90px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.gmail {
+  margin-top: -.9em;
+  margin-left: -1.2em;
+  fill: #f14336;
+}
+
+.card1:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #cc39a4;
+}
+
+.card1:hover .instagram {
+  fill: white;
+}
+
+.card2:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #1877f2;
+}
+
+.card2:hover .facebook {
+  fill: white;
+}
+
+.card3:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #00ff00;
+}
+
+.card3:hover .whatsapp {
+  fill: white;
+}
+
+.card4:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #FF0004;
+}
+
+.card4:hover .gmail {
+  fill: white;
+}
+.socialMedia{
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  gap:50px;
+  margin-left: 20px;
+}
+.socialMedia h4 {
+  font-size: 1.5rem;
+}
+.socialMedia h4 span {
+  background: linear-gradient(to right, #7F00FF, #FF00FF); /* Gradient from purple to pink */
+  -webkit-background-clip: text; /* Ensure the gradient is applied to the text itself */
+  color: transparent; /* Make the text color transparent so the gradient shows */
+}
+.sinfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+.info2{
+  display: flex;
+  align-items: center;
+  gap:50px;
+  margin-left: 20px;
+}
+.info2 iframe{
+  all: unset;
+}
+.info2 iframe {
+  width: 80%; /* Make it responsive */
+  max-width: 400px; /* Set a max-width for elegance */
+  height: 400px; /* Adjust the height as needed */
+  border: none; /* Remove default iframe border */
+  border-radius: 12px; /* Add rounded corners for a sleek look */
+  margin: 20px auto; /* Center the iframe with some margin */
+  display: block; /* Ensure it behaves like a block-level element */
+  overflow: hidden; /* Hide overflow if needed */
+}
+strong {
+  background: linear-gradient(to right, #7F00FF, #FF00FF); /* Gradient from purple to pink */
+  -webkit-background-clip: text; /* Ensure the gradient is applied to the text itself */
+  color: transparent; /* Make the text transparent so the gradient shows */
+}
+.reylce{
+
+}
+.heading {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+}
+
+
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  position: relative;
+  padding:5px 0;
+  margin-bottom: 10px; /* Increased gap between list items */
+  cursor: pointer;
+}
+
+ul li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #7F00FF; /* Color of the line */
+  transition: width 0.3s ease; /* Smooth left to right transition */
+}
+
+ul li:hover:before {
+  width: 80%; /* Full width on hover */
+}
+
+ul li:hover {
+  margin-bottom: 10px; /* Increased gap on hover */
+}
+.reylce{
+  color: #7F00FF;
+}
