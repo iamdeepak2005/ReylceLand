@@ -1004,3 +1004,19 @@ ul li:hover {
   top: 30%;
   left: 10%;
 }
+
+.ag-courses-item_link .hidden-content {
+  opacity: 0; /* Initially hidden */
+  visibility: hidden;
+  font-size: 14px; /* Adjust as needed */
+  margin-top: 10px; /* Space below the title */
+  color: #fff; /* Adjust color */
+  z-index: 1000;
+}
+
+
+/* Show the content on hover */
+.ag-courses_item:hover .hidden-content {
+  opacity: 1;
+  visibility: visible;
+}
